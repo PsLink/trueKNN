@@ -16,7 +16,7 @@ LDFLAGS = -L/usr/mpi/gcc/openmpi-1.10.4-hfi/lib64
 FLAGS = -lmpi_cxx -lmpi -lopen-rte -lopen-pal -ldl -lnsl -lutil -lm
 
 all:$(ALLOBJFILES) makefile
-	nvcc -std=c++11 -o findKNN -gencode arch=compute_61,code=sm_61 -lm  -lcudart -lcublas $(LDFLAGS) $(FLAGS) $(ALLOBJFILES) 
+	nvcc -std=c++11 -o findKNN.out -gencode arch=compute_61,code=sm_61 -lm  -lcudart -lcublas $(LDFLAGS) $(FLAGS) $(ALLOBJFILES) 
 
 %.o: %.cu 
 	nvcc -std=c++11 -c -O2  -gencode arch=compute_61,code=sm_61  $(CFLAGS) -o $@ $<
@@ -26,4 +26,4 @@ all:$(ALLOBJFILES) makefile
 
 clean:
 	-rm *.o
-	-rm findKNN
+	-rm findKNN.out
