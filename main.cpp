@@ -17,11 +17,11 @@ int main(int argc, char **argv) {
 	std::vector<std::vector<short int> > Queries;
 
 	// Init parameters
-	// int numOfData =  100000000;
-	// int batch_size = 1000000;
-	int numOfData =  10000;
-	int batch_size = 1000;
-	int numOfQuery = 1000;
+	int numOfData =  100000000;
+	int batch_size = 10000000;
+	// int numOfData =  10000;
+	// int batch_size = 1000;
+	int numOfQuery = 1;
 	int dim = 128;
 	char dataFile[100] = "/home/pingyi/DATASET/learn.bvecs";
 	char queryFile[100] = "/home/pingyi/DATASET/QUERY/query.csv";
@@ -41,15 +41,16 @@ int main(int argc, char **argv) {
 
 	std::vector<short int> query;
 	std::vector<float> distance;
-	std::vector<float> answer;
 
 	std::vector<Record> ranking;
+	std::vector<Record> answers;
 
 	std::vector<int> groupSize;
-    groupSize.clear();
 
-
+	groupSize.clear();
+	answers.clear();
 	query.resize(dim);
+
 	for (int qryID = 0; qryID < numOfQuery; qryID++){
 
 		printf("Query %d.\n", qryID);
@@ -58,27 +59,30 @@ int main(int argc, char **argv) {
 			query[i] = Queries[qryID][i];
 
 		for (int batchID = 0; batchID < numOfData; batchID += batch_size) {
-
+			printf("batch %d.\n", batchID);
 			distance.clear();
 			dis(query, DataSet, distance, batchID, batch_size);
 			// std::sort(distance.begin(),distance.end());
-			for (int i=0; i<batch_size; i=0; i++) {
+			for (int i=0; i<batch_size; i++) {
 				Record tmp;
-				tmp.dist = distance[i];
+				tmp.dist = sqrt(distance[i]);
 				tmp.pID = batchID + i;
 				ranking.push_back(tmp);
 			}
 
 			std::sort(ranking.begin(),ranking.end(), &Compare);
 
-			for (int i=0; i<batch_size; i=0; i++) {
-				printf("%d %0.5f \n", ranking[i].pID, ranking[i].dist);
-			}
+			for (int i=0; i<100; i++)
+				answers.push_back(ranking[i]);
+
+			//for (int i=0; i<batch_size; i++) {
+			//	printf("%d %0.5f \n", ranking[i].pID, ranking[i].dist);
+			//}
 		}
 
 		// record top k
-		// std::sort(answer.begin(),answer.end());
-		// fprintf(fout, "%f %f \n", answer[10],sqrt(answer[10]));
+		std::sort(answers.begin(),answers.end(), &Compare);
+		fprintf(fout, "%d %.5f \n", answers[100].pID,answers[100].dist);
 		// fprintf(fout, "%f %f \n", answer[100],sqrt(answer[100]));
 		// fprintf(fout, "%f %f \n", answer[1000],sqrt(answer[1000]));
 		// fprintf(fout, "\n");
