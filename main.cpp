@@ -6,7 +6,7 @@ struct Record
 	int pID;	
 };
 
-bool Compare(const record& l, const record& r)
+bool Compare(const Record& l, const Record& r)
 {
   return l.dist < r.dist;
 }
