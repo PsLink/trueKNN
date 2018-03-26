@@ -8,7 +8,7 @@
 
 NVCC = nvcc
 
-ALLOBJFILES = main.o gpu_dist.o util.o 
+ALLOBJFILES = main.o gpu_dist.o util.o synPara.o
 # ALLOBJFILES = cublasLSH.o dataProcess.o Random.o synPara.o cluster.o util.o minHash.o
 # ALLOBJFILES = *.o
 CFLAGS = -I/usr/mpi/gcc/openmpi-1.10.4-hfi/include

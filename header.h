@@ -14,15 +14,15 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <mpi.h>
 
 //using namespace __gnu_cxx;
 using namespace std;
 
 #include "gpu_dist.h"
 #include "util.h"
-
-
-//#include "C2LSH.h"
+#include "BasicDefinitions.h"
+#include "synPara.h"
 
 ///** On OS X malloc definitions reside in stdlib.h */
 //#ifdef DEBUG_MEM

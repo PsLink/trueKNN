@@ -1,13 +1,11 @@
-// refine Clustering results by removing clusters that has fewer points
-
 #include "header.h"
 // #include <float.h>
 
-// const uint8_t LOCAL_RANK = atoi(getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
 
 #ifndef FLT_MAX
 #define FLT_MAX 3.40282347e+38
 #endif
+
 
 __device__ inline float euclid_dist_2(
     int clusterId,
@@ -59,7 +57,7 @@ void dis(
 
     distance.resize(k);
 
-    // cudaSetDevice(DEVICE_LOCAL_RANK);
+    cudaSetDevice(DEVICE_LOCAL_RANK);
 
     short int *d_query;
     cudaMalloc((void**)&d_query, dim * sizeof(short int));
